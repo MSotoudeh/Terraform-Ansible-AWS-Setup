@@ -1,16 +1,19 @@
 # Terraform-Ansible-AWS-Setup
 
 ## Project Description
-This project demonstrates how to set up a simple web server infrastructure on AWS using Terraform for provisioning and Ansible for configuration management.
+This project demonstrates how to set up a simple web server infrastructure on AWS using Terraform for provisioning and Ansible for configuration management. It is designed to showcase Infrastructure as Code (IaC) principles and automation.
 
 ## Features
-- **Terraform:** Create VPC, Subnets, EC2 Instances, and Security Groups.
-- **Ansible:** Install and configure Nginx on EC2 instances.
+- **Terraform:** Provisioning of VPC, Subnets, EC2 Instances, and Security Groups.
+- **Ansible:** Configuration management to install and configure Nginx on EC2 instances.
+- **CI/CD:** Automated pipeline using GitHub Actions for testing and deployment.
+- **Advanced Features:** Load balancing, auto scaling, and monitoring.
 
 ## Prerequisites
 - Terraform installed
 - Ansible installed
 - AWS account with appropriate permissions
+- GitHub account
 
 ## Setup Instructions
 
@@ -18,7 +21,7 @@ This project demonstrates how to set up a simple web server infrastructure on AW
 1. Clone the repository:
    ```bash
    git clone https://github.com/MSotoudeh/terraform-ansible-aws-setup.git
-   cd terraform-ansible-aws-setup
+   cd terraform-ansible-aws-setup/terraform
 2. Initialize Terraform:
    ```bash
    terraform init
