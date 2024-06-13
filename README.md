@@ -25,22 +25,41 @@ This project demonstrates how to set up a simple web server infrastructure on AW
 2. Initialize Terraform:
    ```bash
    terraform init
-4. Apply Terraform configuration:
+3. Apply Terraform configuration:
    ```bash
-   terraform init
+   terraform apply
+
 ### Ansible
-1. Update the inventory file with the EC2 instance details.
+1. Update the inventory file with the EC2 instance details (automatically populated by Terraform).
 2. Run the Ansible playbook:
    ```bash
-   ansible-playbook -i inventory playbook.yml
+   ansible-playbook -i inventory ../ansible/playbook.yml
 
-Usage
+### Usage
 Access the web server via the public IP address of the EC2 instance.
+
+## Advanced Features
+### Load Balancing
+This project includes an optional configuration for setting up an AWS Elastic Load Balancer (ELB) to distribute traffic across multiple EC2 instances.
+
+### Auto Scaling
+Auto Scaling groups are configured to adjust the number of EC2 instances based on load, ensuring high availability and performance.
+
+### Monitoring
+AWS CloudWatch is set up to monitor the infrastructure and trigger alerts based on predefined metrics.
+
+## Contribution Guidelines
+We welcome contributions! Please fork the repository and submit pull requests.
+
+## License
+MIT
+
+Contact
+For any questions or feedback, don't hesitate to contact m.sotoudeh@e.email.
+
+## Acknowledgments
+Thanks to the DevOps community for the continuous support and resources.
 
 License
 MIT
-
-
-By following this plan, you'll build a strong portfolio that showcases your DevOps skills, making you a competitive candidate for DevOps positions. Good luck with your transition to DevOps! 😺🐙
-
 
