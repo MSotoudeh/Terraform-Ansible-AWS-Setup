@@ -19,3 +19,25 @@ This project demonstrates how to set up a simple web server infrastructure on AW
    ```bash
    git clone https://github.com/MSotoudeh/terraform-ansible-aws-setup.git
    cd terraform-ansible-aws-setup
+2. Initialize Terraform:
+   ```bash
+   terraform init
+4. Apply Terraform configuration:
+   ```bash
+   terraform init
+### Ansible
+1. Update the inventory file with the EC2 instance details.
+2. Run the Ansible playbook:
+   ```bash
+   ansible-playbook -i inventory playbook.yml
+
+Usage
+Access the web server via the public IP address of the EC2 instance.
+
+License
+MIT
+
+
+By following this plan, you'll build a strong portfolio that showcases your DevOps skills, making you a competitive candidate for DevOps positions. Good luck with your transition to DevOps! 😺🐙
+
+
