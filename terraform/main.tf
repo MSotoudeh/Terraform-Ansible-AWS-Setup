@@ -32,4 +32,8 @@ resource "aws_instance" "example" {
   tags = {
     Name = "example-instance"
   }
+
+  provisioner "local-exec" {
+    command = "echo ${aws_instance.example.public_ip} >> ../ansible/inventory"
+  }
 }
