@@ -1,31 +1,35 @@
-resource "aws_instance" "web" {
-  ami           = "ami-0c55b159cbfafe1f0"
+variable "key_name" {
+  description = "Key pair for SSH access"
+  type        = string
+}
+
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-west-2"
+}
+
+variable "ami_id" {
+  description = "AMI ID"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+resource "aws_instance" "example" {
+  ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
 
   tags = {
-    Name = "WebServer"
-  }
-
-  provisioner "local-exec" {
-    command = "echo ${aws_instance.web.public_ip} >> inventory"
-  }
-}
-
-resource "aws_security_group" "web_sg" {
-  name_prefix = "web_sg"
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    Name = "example-instance"
   }
 }
