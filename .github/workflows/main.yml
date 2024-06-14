@@ -1,4 +1,4 @@
-name: Terraform Deployment
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,23 +7,54 @@ on:
 
 jobs:
   terraform:
+    name: Terraform Apply
     runs-on: ubuntu-latest
-
+    timeout-minutes: 120
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
 
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform init
+        working-directory: .
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_key_name: ${{ secrets.AWS_KEY_NAME }}
+      - name: Terraform Validate
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform validate
+        working-directory: .
+
+      - name: Terraform Plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform plan -out=plan.tfplan
+        working-directory: .
+
+      - name: Terraform Apply
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform apply -auto-approve plan.tfplan
+        working-directory: .
+
+  ansible:
+    name: Ansible Playbook
+    runs-on: ubuntu-latest
+    needs: terraform
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Ansible
+        run: sudo apt-get update && sudo apt-get install -y ansible
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook -i ansible/inventory ansible/playbook.yml
