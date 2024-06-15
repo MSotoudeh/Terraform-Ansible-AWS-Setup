@@ -54,8 +54,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Install Ansible
-        run: sudo apt-get update && sudo apt-get install -y ansible
+      - name: Install Ansible and AWS CLI
+        run: sudo apt-get update && sudo apt-get install -y ansible awscli
+
+      - name: Configure AWS Credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region us-west-2  # Change this if needed
 
       - name: Run Ansible Playbook
         run: ansible-playbook -i ansible/inventory ansible/playbook.yml
