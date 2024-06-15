@@ -6,7 +6,7 @@ variable "key_name" {
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "us-west-2"
+  default     = "us-west-2"  # You can change this to your preferred region
 }
 
 variable "ami_id" {
@@ -34,6 +34,6 @@ resource "aws_instance" "example" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${aws_instance.example.public_ip} >> ../ansible/inventory"
+    command = "echo ${self.public_ip} >> ../ansible/inventory"
   }
 }
