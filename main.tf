@@ -34,6 +34,6 @@ resource "aws_instance" "example" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${aws_instance.example.public_ip} >> ../ansible/inventory"
+    command = "echo ${self.public_ip} >> ${path.module}/ansible/inventory"
   }
 }
